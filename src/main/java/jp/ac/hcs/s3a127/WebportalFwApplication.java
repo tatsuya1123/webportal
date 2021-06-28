@@ -1,4 +1,4 @@
-package jp.ac.hcs.s3a126;
+package jp.ac.hcs.s3a127;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
