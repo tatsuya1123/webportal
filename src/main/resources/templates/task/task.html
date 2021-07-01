@@ -64,57 +64,36 @@
 	</nav>
 
 	<!-- コンテンツ -->
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="content-box">
-					<h2>住所検索 - 郵便番号</h2>
-					<form method="post" name="zipcode_form"  onsubmit="return Check()" th:action="@{/zip}">
-						<div class="input-group">
-							<input type="number" class="form-control" name = "zipcode"
-								placeholder="郵便番号 : XXXXXXX"> <span
-								class="input-group-btn">
-								<button type="submit" class="btn btn-success">検索</button>
-							</span>
-						</div>
-					</form>
-				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="content-box">
-					<h2>北海道の天気予報</h2>
-					<form method="get" name="weather_form" onsubmit="return weatherCheck()"  th:action="@{/weather}">
-						<select name = citycode id=citycode class="form-select" aria-label="Disabled select example">
-							<option value="011000">稚内</option>
-							<option value="012010">旭川</option>
-							<option value="013010">網走</option>
-							<option value="013020">北見</option>
-							<option value="013030">紋別</option>
-							<option value="014010">根室</option>
-							<option value="014020">釧路</option>
-							<option value="014030">帯広</option>
-							<option value="015010">室蘭</option>
-							<option value="015020">浦河</option>
-							<option value="016010" selected>札幌</option>
-							<option value="016020">岩見沢</option>
-							<option value="016030">倶知安</option>
-							<option value="017010">函館</option>
-							<option value="017020">江差</option>
-						</select>
-							<button type="submit" id="weather" class="btn btn-primary">もっと詳しく</button>
-					</form>
-				</div>
-			</div>
-
+	<h2>タスク管理</h2>
+	
+	<hr>
+	
+	<form method="post" th:action="@{/task/insert}">
+		<div class="input-group">
+			<input type="text" class="form-control" name="comment" placeholder="タスク内容">
+			<input tyoe="date" class="form-control" name="limitday">
+			<span class="input-group-btn">
+				<button type="submit" class="btn btn-warning">追加</button>
+			</span>
 		</div>
-		<div class="row">
-			<div class="col-sm-6">
-				<form th:action="@{/task}" method="post">
-					<button type="submit" id="task" class="btn btn-primary">タスク管理画面へ</button>
-				</form>
-			</div>
-		</div>
-	</div>
+	</form>
+	
+	<hr>
+	<table class="table" ><tr>
+		<th scope="col">タスク内容</th>
+		<th scope="col">日付</th>
+	</tr>
+	<tr th:each="task : ${taskEntity.tasklist}">
+		<td scope="col"><a th:href="@{'/task/delete/' + ${task.id}}"><span th:text="${task.comment}" ></span></a></td>
+		<td th:text="${task.limitday}" scope="col"></td>
+	</tr>
+	</table>
+	
+	<hr>
+	
+	<form method="post" th:action="@{/task/csv}">
+		<button type="submit" class="btn btn-info">csv出力</button>
+	</form>
 
 	<!-- 共通スクリプト -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
