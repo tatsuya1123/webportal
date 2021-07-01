@@ -34,6 +34,7 @@
 	href="../static/css/ress.css">
 <link rel="stylesheet" th:href="@{/css/home.css}"
 	href="../static/css/home.css">
+	
 
 </head>
 
@@ -70,9 +71,10 @@
 			<h1>住所検索画面</h1>
 			<h2>郵便番号</h2>
 			<h3>検索結果</h3>
+			<div id="error"></div>
 			<!-- 基本１件だが、API構造に従い繰り返し構文とする -->
 			<ul th:each="result : ${zipCodeEntity.results}" th:object="${result}">
-				<li><span th:text="*{zipcode}"></span></li>
+				<li id="errorcheck"><span th:text="*{zipcode}" id="test"></span></li>
 				<li><span th:text="*{address1}"></span></li>
 				<li><span th:text="*{address2}"></span></li>
 				<li><span th:text="*{address3}"></span></li>
@@ -80,6 +82,15 @@
 				<li><span th:text="*{kana2}"></span></li>
 				<li><span th:text="*{kana3}"></span></li>
 			</ul>
+			<script type="text/javascript">
+			var sample = document.getElementById("errorcheck");
+			var text = document.getElementById("error");
+			text.innerHTML = "";
+			if (sample == null || sample == '') {
+  				text.innerHTML = "条件に該当する住所は見つかりませんでした";
+			}
+			</script>
+			
 		</div>
 	</div>
 

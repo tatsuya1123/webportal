@@ -9,7 +9,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 /**
  * 郵便番号情報を操作する
  * zipcloud社の郵便番号検索APIを活用する
@@ -31,9 +30,9 @@ public class ZipCodeService {
 	 * @return ZipCodeEntity
 	 */
 	public ZipCodeEntity getZip(String zipcode) {
-		
 		//APIへアクセスして、結果を取得
 		String json = restTemplate.getForObject(URL, String.class, zipcode);
+		System.out.println(json);
 		
 		//エンティティクラスを生成
 		ZipCodeEntity zipCodeEntity = new ZipCodeEntity();
@@ -50,7 +49,6 @@ public class ZipCodeService {
 				//messageパラメータの抽出
 				String message = node.get("message").asText();
 				zipCodeEntity.setMessage(message);
-				
 				//resultsパラメータの抽出(配列分取得する)
 				for (JsonNode result : node.get("results")) {
 					//データのクラスの作成(result1件分)

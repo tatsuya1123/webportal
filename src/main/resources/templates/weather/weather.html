@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
@@ -34,14 +33,16 @@
 	href="../static/css/ress.css">
 <link rel="stylesheet" th:href="@{/css/home.css}"
 	href="../static/css/home.css">
+	
+
 </head>
 
 <body th:classappend="${session.isDarkmode} ? 'mode-dark'">
 
 	<!-- 共通ヘッダ -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-success">
 		<h1>
-			<a class="navbar-brand title-font" th:href="@{/}" style="font-family: cursive">WebPortal.com</a>
+			<a class="navbar-brand title-font" th:href="@{/}">WebPortal.com</a>
 		</h1>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarToggler" aria-controls="navbarToggler"
@@ -65,47 +66,15 @@
 
 	<!-- コンテンツ -->
 	<div class="container">
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="content-box">
-					<h2>住所検索 - 郵便番号</h2>
-					<form method="post" name="zipcode_form"  onsubmit="return Check()" th:action="@{/zip}">
-						<div class="input-group">
-							<input type="number" class="form-control" name = "zipcode"
-								placeholder="郵便番号 : XXXXXXX"> <span
-								class="input-group-btn">
-								<button type="submit" class="btn btn-success">検索</button>
-							</span>
-						</div>
-					</form>
-				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="content-box">
-					<h2>北海道の天気予報</h2>
-					<form method="get" name="weather_form" onsubmit="return weatherCheck()"  th:action="@{/weather}">
-						<select name = citycode id=citycode class="form-select" aria-label="Disabled select example">
-							<option value="011000">稚内</option>
-							<option value="012010">旭川</option>
-							<option value="013010">網走</option>
-							<option value="013020">北見</option>
-							<option value="013030">紋別</option>
-							<option value="014010">根室</option>
-							<option value="014020">釧路</option>
-							<option value="014030">帯広</option>
-							<option value="015010">室蘭</option>
-							<option value="015020">浦河</option>
-							<option value="016010" selected>札幌</option>
-							<option value="016020">岩見沢</option>
-							<option value="016030">倶知安</option>
-							<option value="017010">函館</option>
-							<option value="017020">江差</option>
-						</select>
-							<button type="submit" id="weather" class="btn btn-primary">もっと詳しく</button>
-					</form>
-				</div>
-			</div>
-
+		<div class="content-box">
+			<h1 th:text="${weatherEntity.title}"></h1>
+			<p>(詳細)</p>
+			
+			<ul th:each="forecast : ${weatherEntity.forecasts}">
+				<li><h4><span th:text="${forecast.dateLabel}"></span></h4></li>
+				<li><span th:text="${forecast.telop}"></span></li>
+			</ul>
+			<p th:text="${weatherEntity.description}"></p>
 		</div>
 	</div>
 
@@ -121,26 +90,5 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
-	<script>
-	function Check(){
-		var a = document.zipcode_form.zipcode.value;
-        if (a == "" || a.length != 7){
-            alert("不正な入力です"); 
-            return false;
-        }else{
-            return true;
-        }
-    }
-	</script>
-	<script>
-	function weatherCheck() {
-		var a = $('[name=citycode]').val();
-		if (a.length != 6) {
-			alert("不正な入力です");
-			return false;
-		}
-		return true;
-	}
-	</script>
 </body>
 </html>

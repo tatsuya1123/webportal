@@ -10,7 +10,6 @@ import lombok.Data;
 public class ZipCodeData {
 	/**	郵便番号*/
 	private String zipcode;
-	
 	/**都道府県コード*/
 	private String prefcode;
 	/**都道府県名*/
