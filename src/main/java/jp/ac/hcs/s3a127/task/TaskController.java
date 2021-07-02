@@ -27,9 +27,9 @@ public class TaskController {
 		@PostMapping("/task")
 		public String getTask(Principal principal, Model model) {
 			TaskEntity taskEntity = taskService.getTask(principal.getName());
-			System.out.println(taskEntity.getTasklist().get(0).getUser_id());
 			model.addAttribute("taskEntity", taskEntity);
-			
+			String errorMessage = "";
+			model.addAttribute("errorMessage",errorMessage);
 			return "task/task";
 		}
 		
@@ -38,19 +38,27 @@ public class TaskController {
 								@RequestParam(name = "limitday", required = false) String limitday,
 								Principal principal, Model model) {
 			if (comment == null || comment == "" || comment.length() > 50) {
-				return "index";
+				String errorMessage = "入力が正しくありません";
+				model.addAttribute("errorMessage",errorMessage);
+				TaskEntity taskEntity = taskService.getTask(principal.getName());
+				model.addAttribute("taskEntity" , taskEntity);
+				return "task/task";
 			}
 			try {
 				Date date = Date.valueOf(limitday);
 				TaskEntity taskEntity = (TaskEntity) model.getAttribute("taskEntity");
 				taskEntity = taskService.setTask(principal.getName(), comment,date,taskEntity);
-				
 				model.addAttribute("taskEntity",taskEntity);
-				
+				String errorMessage = "追加しました";
+				model.addAttribute("errorMessage",errorMessage);
 				return "task/task";
 				
 			}catch (IllegalArgumentException e){
-				return "index";
+				String errorMessage = "入力が正しくありません";
+				model.addAttribute("errorMessage",errorMessage);
+				TaskEntity taskEntity = taskService.getTask(principal.getName());
+				model.addAttribute("taskEntity" , taskEntity);
+				return "task/task";
 			}
 			
 			
@@ -62,6 +70,8 @@ public class TaskController {
 		public String deleteTask(@PathVariable("id") int id , Principal principal, Model model){
 			TaskEntity taskEntity = taskService.deleteTask(id,principal.getName());
 			model.addAttribute("taskEntity", taskEntity);
+			String errorMessage = "削除しました";
+			model.addAttribute("errorMessage",errorMessage);
 			return "task/task";
 		}
 }

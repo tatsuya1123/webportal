@@ -64,14 +64,26 @@
 	</nav>
 
 	<!-- コンテンツ -->
+	<div class="container">
+	<div class="content-box">
 	<h2>タスク管理</h2>
 	
 	<hr>
-	
+		
+		<div class="col">
+			<span th:if="${errorMessage.length() == 6}">
+				<span class="alert alert-primary" role="alert" th:text="${errorMessage}"></span>
+			</span>
+		</div>
+			<span th:if="${errorMessage.equals('入力が正しくありません')}">
+				<span class="alert alert-warning" role="alert" th:text="${errorMessage}"></span>
+				<br>
+			</span>
+	<br>	
 	<form method="post" th:action="@{/task/insert}">
 		<div class="input-group">
 			<input type="text" class="form-control" name="comment" placeholder="タスク内容">
-			<input tyoe="date" class="form-control" name="limitday">
+			<input type="date" class="form-control" name="limitday">
 			<span class="input-group-btn">
 				<button type="submit" class="btn btn-warning">追加</button>
 			</span>
@@ -79,22 +91,22 @@
 	</form>
 	
 	<hr>
-	<table class="table" ><tr>
+	<table class="table" ><tr class="thead-dark">
 		<th scope="col">タスク内容</th>
 		<th scope="col">日付</th>
 	</tr>
 	<tr th:each="task : ${taskEntity.tasklist}">
-		<td scope="col"><a th:href="@{'/task/delete/' + ${task.id}}"><span th:text="${task.comment}" ></span></a></td>
-		<td th:text="${task.limitday}" scope="col"></td>
+		<td class="table-light" scope="col"><a th:href="@{'/task/delete/' + ${task.id}}"><span th:text="${task.comment}" ></span></a></td>
+		<td th:text="${task.limitday}" class="table-light" scope="col"></td>
 	</tr>
 	</table>
-	
+	</div>
 	<hr>
 	
 	<form method="post" th:action="@{/task/csv}">
 		<button type="submit" class="btn btn-info">csv出力</button>
 	</form>
-
+	</div>
 	<!-- 共通スクリプト -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
