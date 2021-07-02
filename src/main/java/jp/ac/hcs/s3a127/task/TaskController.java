@@ -6,6 +6,8 @@ import java.sql.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,18 +37,31 @@ public class TaskController {
 		public String addTask(@RequestParam("comment") String comment,
 								@RequestParam("limitday") String limitday,
 								Principal principal, Model model) {
-			Date date = Date.valueOf(limitday);
-			TaskEntity taskEntity = (TaskEntity) model.getAttribute("taskEntity");
-			taskEntity = taskService.setTask(principal.getName(), comment,date,taskEntity);
+			if (comment == "" || comment.length() > 50) {
+				return "index";
+			}
+			try {
+				Date date = Date.valueOf(limitday);
+				TaskEntity taskEntity = (TaskEntity) model.getAttribute("taskEntity");
+				taskEntity = taskService.setTask(principal.getName(), comment,date,taskEntity);
+				
+				model.addAttribute("taskEntity",taskEntity);
+				
+				return "task/task";
+				
+			}catch (IllegalArgumentException e){
+				return "index";
+			}
 			
-			model.addAttribute("taskEntity",taskEntity);
 			
 			
-			return "task/task";
+			
 			
 		}
-		@PostMapping("/task/delete")
-		public void deleteTask(@RequestParam ("") String id) {
-			
+		@GetMapping("/task/delete/{id}")
+		public String deleteTask(@PathVariable("id") int id , Principal principal, Model model){
+			TaskEntity taskEntity = taskService.deleteTask(id,principal.getName());
+			model.addAttribute("taskEntity", taskEntity);
+			return "task/task";
 		}
 }

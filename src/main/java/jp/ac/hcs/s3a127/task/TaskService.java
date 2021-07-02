@@ -36,4 +36,10 @@ public class TaskService {
 		
 		return taskEntity;
 	}
+	public TaskEntity deleteTask(int id,String userId) {
+		taskRepository.deleteOne(id);
+		TaskEntity taskEntity = getTask(userId);
+		return taskEntity;
+		
+	}
 }
