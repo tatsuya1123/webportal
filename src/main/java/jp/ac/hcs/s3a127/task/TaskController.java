@@ -34,10 +34,10 @@ public class TaskController {
 		}
 		
 		@PostMapping("/task/insert")
-		public String addTask(@RequestParam("comment") String comment,
-								@RequestParam("limitday") String limitday,
+		public String addTask(@RequestParam(name = "comment",required = false) String comment, 
+								@RequestParam(name = "limitday", required = false) String limitday,
 								Principal principal, Model model) {
-			if (comment == "" || comment.length() > 50) {
+			if (comment == null || comment == "" || comment.length() > 50) {
 				return "index";
 			}
 			try {
