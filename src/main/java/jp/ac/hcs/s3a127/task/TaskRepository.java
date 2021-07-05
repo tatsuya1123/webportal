@@ -21,7 +21,7 @@ public class TaskRepository {
 	/** SQL 全件取得　（期限日昇順） */
 	private static final String SQL_SELECT_ALL = "SELECT * FROM task WHERE user_id = ? order by limitday";
 	/** SQL 1件追加 */
-	private static final String SQL_INSERT_ONE = "INSERT INTO task(id, user_id, comment, limitday) VALUES((SELECT MAX(id) + 1 FROM task),?,?,?)";
+	private static final String SQL_INSERT_ONE = "INSERT INTO task(id, user_id, priority, title, comment, limitday) VALUES((SELECT MAX(id) + 1 FROM task),?,?,?,?,?)";
 	/** SQL 1検索所 */
 	private static final String SQL_DELETE_ONE = "DELETE FROM task WHERE id = ?";
 	
@@ -52,6 +52,9 @@ public class TaskRepository {
 			TaskData data = new TaskData();
 			data.setId((Integer) map.get("id"));
 			data.setUser_id((String) map.get("user_id"));
+			String p = (String) map.get("priority");
+			data.setPriority((Priority.valueOf(p)));
+			data.setTitle((String) map.get("title"));
 			data.setComment((String) map.get("comment"));
 			data.setLimitday((Date) map.get("limitday"));
 			
@@ -69,6 +72,8 @@ public class TaskRepository {
 	public int insertOne(TaskData data) throws DataAccessException {
 		int rowNumber = jdbc.update(SQL_INSERT_ONE,
 						data.getUser_id(),
+						data.getPriority().name(),
+						data.getTitle(),
 						data.getComment(),
 						data.getLimitday());
 		return rowNumber;
@@ -83,5 +88,17 @@ public class TaskRepository {
 	public int deleteOne(int id) throws DataAccessException {
 		int rowNumber = jdbc.update(SQL_DELETE_ONE, id);
 		return rowNumber;
+	}
+	/**
+	 * TaskテーブルからユーザIDをキーにデータを全件取得し、CSVファイルとしてサーバに保存する.
+	 * @param user_id 検索するユーザID
+	 * @throws DataAccessException
+	 */
+	public void tasklistCsvOut(String user_id) throws DataAccessException {
+
+		// CSVファイル出力用設定
+		TaskRowCallbackHandler handler = new TaskRowCallbackHandler();
+
+		jdbc.query(SQL_SELECT_ALL, handler, user_id);
 	}
 }

@@ -75,29 +75,52 @@
 				<span class="alert alert-primary" role="alert" th:text="${errorMessage}"></span>
 			</span>
 		</div>
-			<span th:if="${errorMessage.equals('入力が正しくありません')}">
+			<span th:if="${errorMessage.length() == 11}">
 				<span class="alert alert-warning" role="alert" th:text="${errorMessage}"></span>
 				<br>
 			</span>
 	<br>	
 	<form method="post" th:action="@{/task/insert}">
 		<div class="input-group">
+		<div class="row">
+			<div class="col-sm-6">
+			<input type="text" class="form-control" name="title" placeholder="タイトル">
+			</div><div class="col-sm-6">
 			<input type="text" class="form-control" name="comment" placeholder="タスク内容">
+			</div>
+			<div class="col-sm-6">
 			<input type="date" class="form-control" name="limitday">
+			</div>
+			<div class="col-sm-6">
+			<select class="form-control" name="priority">
+    			<option value="1">大</option>
+    			<option value="2">中</option>
+    			<option value="3">小</option>
+			</select>
+			</div>
+			<div class="col-sm-6">
 			<span class="input-group-btn">
 				<button type="submit" class="btn btn-warning">追加</button>
 			</span>
+			</div>
+		</div>
 		</div>
 	</form>
 	
 	<hr>
 	<table class="table" ><tr class="thead-dark">
+		<th scope="col">タイトル</th>
+		<th scope="col">優先度</th>
 		<th scope="col">タスク内容</th>
 		<th scope="col">日付</th>
+		
 	</tr>
 	<tr th:each="task : ${taskEntity.tasklist}">
-		<td class="table-light" scope="col"><a th:href="@{'/task/delete/' + ${task.id}}"><span th:text="${task.comment}" ></span></a></td>
+		<td th:text="${task.title}" class="table-light" scope="col"></td>
+		<td th:text="${task.priority.getValue()}" class="table-light" scope="col"></td>
+		<td class="table-light" scope="col"><a id = "delete" th:href="@{'/task/delete/' + ${task.id}}"><span th:text="${task.comment}" ></span></a></td>
 		<td th:text="${task.limitday}" class="table-light" scope="col"></td>
+
 	</tr>
 	</table>
 	</div>
@@ -130,6 +153,7 @@
         }
     }
 	</script>
+	<script th:src="@{/js/task.js}"></script>
 	<script>
 	function weatherCheck() {
 		var a = $('[name=citycode]').val();
