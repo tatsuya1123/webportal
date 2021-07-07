@@ -22,8 +22,7 @@
 	href="../static/img/favicon.ico">
 <link rel="shortcut icon" th:href="@{/img/favicon.ico}">
 <link rel="apple-touch-icon" th:href="@{/img/favicon.ico}">
-<link rel="apple-touch-icon" th:href="@{/img/favicon.ico}"
-	sizes="192x192">
+<link rel="apple-touch-icon" th:href="@{/img/favicon.ico}" sizes="192x192">
 <link rel="apple-touch-icon" th:href="@{/img/favicon.ico}" sizes="58x58">
 
 <!-- スタイル設定 -->
@@ -35,15 +34,16 @@
 	href="../static/css/ress.css">
 <link rel="stylesheet" th:href="@{/css/home.css}"
 	href="../static/css/home.css">
+	
+
 </head>
 
 <body th:classappend="${session.isDarkmode} ? 'mode-dark'">
 
 	<!-- 共通ヘッダ -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-success">
 		<h1>
-			<a class="navbar-brand title-font" th:href="@{/}"
-				style="font-family: cursive">WebPortal.com</a>
+			<a class="navbar-brand title-font" th:href="@{/}">WebPortal.com</a>
 		</h1>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarToggler" aria-controls="navbarToggler"
@@ -66,85 +66,40 @@
 	</nav>
 
 	<!-- コンテンツ -->
+	<div class="container">
+		<div class="content-box">
+			<h1>ユーザ一覧</h1>
+			<div id="error"></div>
+			<!-- 基本１件だが、API構造に従い繰り返し構文とする -->
+			<table class="table">
+				<tr class="thead-dark">
+					<th scope="col">ユーザID（メールアドレス）</th>
+					<th scope="col">アカウント有効性</th>
+					<th scope="col">ユーザ名</th>
+					<th scope="col">ダークモード</th>
+					<th scope="col">権限</th>
 
-	<div class="content-box">
-		<h2>タスク管理</h2>
-
-		<hr>
-
-		<span th:if="${errorMessage.length() == 6}"> <span
-			class="alert alert-primary" role="alert" th:text="${errorMessage}"></span>
-		</span> <span th:if="${errorMessage.length() == 11}"> <span
-			class="alert alert-warning" role="alert" th:text="${errorMessage}"></span>
-		</span>
-		<div class="container">
-
-			<form method="post" th:action="@{/task/insert}">
-				<div class="row">
-					<div class="col-sm-2"></div>
-					<div class="col-sm-3">
-						<input type="text" class="form-control" name="title"
-							placeholder="タイトル">
-					</div>
-					<div class="col-sm-2"></div>
-					<div class="col-sm-3">
-						<input type="text" class="form-control" name="comment"
-							placeholder="タスク内容">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-2"></div>
-					<div class="col-sm-3">
-						<input type="date" class="form-control" name="limitday">
-					</div>
-					<div class="col-sm-2"></div>
-					<div class="col-sm-2">
-						<select class="form-control" name="priority">
-							<option value="1">大</option>
-							<option value="2">中</option>
-							<option value="3">小</option>
-						</select>
-					</div>
-				</div>
-				<div clas="row">
-					<div class="col-sm-12">
-						<span class="input-group-btn">
-							<button type="submit" class="btn btn-warning btn-lg">追加</button>
-						</span>
-					</div>
-				</div>
-
-			</form>
+				</tr>
+				<tr th:each="user : ${userEntity.userlist}">
+					<td th:text="${user.user_id}" class="table-light" scope="col"></td>
+					<td th:text="${user.enabled}" class="table-light" scope="col"></td>
+					<td th:text="${user.user_name}" class="table-light" scope="col"></td>
+					<td th:text="${user.darkmode}" class="table-light" scope="col"></td>
+					<td th:text="${user.role}" class="table-light" scope="col"></td>
+				</tr>
+			</table>
+			<script type="text/javascript">
+			var sample = document.getElementById("errorcheck");
+			var text = document.getElementById("error");
+			text.innerHTML = "";
+			if (sample == null || sample == '') {
+  				text.innerHTML = "条件に該当する住所は見つかりませんでした";
+			}
+			</script>
+			
 		</div>
-
-		<hr>
-		<table class="table">
-			<tr class="thead-dark">
-				<th scope="col">タイトル</th>
-				<th scope="col">優先度</th>
-				<th scope="col">タスク内容</th>
-				<th scope="col">日付</th>
-
-			</tr>
-			<tr th:each="task : ${taskEntity.tasklist}">
-				<td th:text="${task.title}" class="table-light" scope="col"></td>
-				<td th:text="${task.priority.getValue()}" class="table-light"
-					scope="col"></td>
-				<td class="table-light" scope="col"><a id="delete"
-					th:href="@{'/task/delete/' + ${task.id}}"><span
-						th:text="${task.comment}"></span></a></td>
-				<td th:text="${task.limitday}" class="table-light" scope="col"></td>
-
-			</tr>
-		</table>
 	</div>
-	<hr>
 
-
-	<form method="post" th:action="@{/task/csv}">
-		<button type="submit" class="btn btn-info">csv出力</button>
-	</form>
-	</div>
 	<!-- 共通スクリプト -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -157,27 +112,5 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
-	<script>
-		function Check() {
-			var a = document.zipcode_form.zipcode.value;
-			if (a == "" || a.length != 7) {
-				alert("不正な入力です");
-				return false;
-			} else {
-				return true;
-			}
-		}
-	</script>
-	<script th:src="@{/js/task.js}"></script>
-	<script>
-		function weatherCheck() {
-			var a = $('[name=citycode]').val();
-			if (a.length != 6) {
-				alert("不正な入力です");
-				return false;
-			}
-			return true;
-		}
-	</script>
 </body>
 </html>

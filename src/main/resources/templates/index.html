@@ -22,7 +22,8 @@
 	href="../static/img/favicon.ico">
 <link rel="shortcut icon" th:href="@{/img/favicon.ico}">
 <link rel="apple-touch-icon" th:href="@{/img/favicon.ico}">
-<link rel="apple-touch-icon" th:href="@{/img/favicon.ico}" sizes="192x192">
+<link rel="apple-touch-icon" th:href="@{/img/favicon.ico}"
+	sizes="192x192">
 <link rel="apple-touch-icon" th:href="@{/img/favicon.ico}" sizes="58x58">
 
 <!-- スタイル設定 -->
@@ -41,7 +42,8 @@
 	<!-- 共通ヘッダ -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 		<h1>
-			<a class="navbar-brand title-font" th:href="@{/}" style="font-family: cursive">WebPortal.com</a>
+			<a class="navbar-brand title-font" th:href="@{/}"
+				style="font-family: cursive">WebPortal.com</a>
 		</h1>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarToggler" aria-controls="navbarToggler"
@@ -65,13 +67,15 @@
 
 	<!-- コンテンツ -->
 	<div class="container">
+
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="content-box">
 					<h2>住所検索 - 郵便番号</h2>
-					<form method="post" name="zipcode_form"  onsubmit="return Check()" th:action="@{/zip}">
+					<form method="post" name="zipcode_form" onsubmit="return Check()"
+						th:action="@{/zip}">
 						<div class="input-group">
-							<input type="number" class="form-control" name = "zipcode"
+							<input type="number" class="form-control" name="zipcode"
 								placeholder="郵便番号 : XXXXXXX"> <span
 								class="input-group-btn">
 								<button type="submit" class="btn btn-success">検索</button>
@@ -83,8 +87,10 @@
 			<div class="col-sm-6">
 				<div class="content-box">
 					<h2>北海道の天気予報</h2>
-					<form method="get" name="weather_form" onsubmit="return weatherCheck()"  th:action="@{/weather}">
-						<select name = citycode id=citycode class="form-select" aria-label="Disabled select example">
+					<form method="get" name="weather_form"
+						onsubmit="return weatherCheck()" th:action="@{/weather}">
+						<select name=citycode id=citycode class="form-select"
+							aria-label="Disabled select example">
 							<option value="011000">稚内</option>
 							<option value="012010">旭川</option>
 							<option value="013010">網走</option>
@@ -101,7 +107,7 @@
 							<option value="017010">函館</option>
 							<option value="017020">江差</option>
 						</select>
-							<button type="submit" id="weather" class="btn btn-primary">もっと詳しく</button>
+						<button type="submit" id="weather" class="btn btn-primary">もっと詳しく</button>
 					</form>
 				</div>
 			</div>
@@ -109,12 +115,41 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-6">
-				<form th:action="@{/task}" method="post">
-					<button type="submit" id="task" class="btn btn-primary">タスク管理画面へ</button>
-				</form>
+				<div class="content-box">
+					<h2>タスク管理機能</h2>
+					<form th:action="@{/task}" method="post">
+						<button type="submit" id="task" class="btn btn-primary">タスク管理画面へ</button>
+					</form>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="content-box">
+					<h2>飲食店検索 - 北海道</h2>
+					<form method="get" name="gourmet_form" th:action="@{/gourmet/1}">
+						<div class="input-group">
+							<input type="text" class="form-control" name="gourmet"
+								placeholder="グルメ"> <span class="input-group-btn">
+								<button type="submit" class="btn btn-success">検索</button>
+							</span>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6" role="presentation"
+				sec:authorize="hasRole('ADMIN')">
+				<!-- 管理者のみのコンテンツ -->
+				<div class="content-box">
+					<h2>ユーザ管理</h2>
+					<form method="get" th:action="@{/user/list}">
+						<button type="submit" class="btn btn-success">ユーザ管理へ</button>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
+
 
 	<!-- 共通スクリプト -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -129,25 +164,25 @@
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
 	<script>
-	function Check(){
-		var a = document.zipcode_form.zipcode.value;
-        if (a == "" || a.length != 7){
-            alert("不正な入力です"); 
-            return false;
-        }else{
-            return true;
-        }
-    }
+		function Check() {
+			var a = document.zipcode_form.zipcode.value;
+			if (a == "" || a.length != 7) {
+				alert("不正な入力です");
+				return false;
+			} else {
+				return true;
+			}
+		}
 	</script>
 	<script>
-	function weatherCheck() {
-		var a = $('[name=citycode]').val();
-		if (a.length != 6) {
-			alert("不正な入力です");
-			return false;
+		function weatherCheck() {
+			var a = $('[name=citycode]').val();
+			if (a.length != 6) {
+				alert("不正な入力です");
+				return false;
+			}
+			return true;
 		}
-		return true;
-	}
 	</script>
 </body>
 </html>

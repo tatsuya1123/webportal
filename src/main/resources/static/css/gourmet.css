@@ -1,0 +1,12 @@
+@charset "UTF-8";
+.example3 li {
+display: inline-block;
+height:40px;line-height:40px;
+width:40px;text-align:center;
+border:1px #ccc solid;color:#000053;
+border-radius: 5px / 5px;
+}
+.example3 .pre {background-color:#ccc;color:#333;}
+.example3 .this {background-color:#777;color:#fff;}
+.example3 li a{display:block;text-decoration: none;}
+.example3 li a:hover {color: #fff;text-decoration: none;background-color: #003396;}

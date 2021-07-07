@@ -60,3 +60,6 @@ h1 {
 	color: black;
 	background-color: black;
 }
+.origin li{
+	display: inline-block;
+}
