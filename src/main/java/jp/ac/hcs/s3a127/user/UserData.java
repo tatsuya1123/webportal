@@ -45,5 +45,48 @@ public class UserData {
 	 * -一般 : "ROLE_GENERAL"
 	 * 必須入力
 	 */
-	private String role;
+	private Role role;
+}
+/**
+ * 優先度のEnumクラス
+ */
+enum Role {
+	ADMIN("ROLE_ADMIN","管理者"),
+	GENERAL("ROLE_GENERAL","一般");
+	
+	/**権限名*/
+	private String role_name;
+	
+	/**値*/
+	private String value;
+	
+	/**コンストラクタ*/
+	Role(String role_name,String value){
+		this.role_name = role_name;
+		this.value = value;
+	}
+	
+	public String getRole_name() {
+		return this.role_name;
+	}
+	public String getValue() {
+		return this.value;
+	}
+	
+	/**
+	 * IDから合致したRole型を返却する
+	 * @param role_name
+	 * @return role
+	 * 
+	 */
+	public static Role nameOf(String role_name) {
+		for (Role role : values()) {
+			System.out.println(role.getRole_name());
+			if (role.getRole_name().equals(role_name)) {
+				System.out.println("あ");
+				return role;
+			}
+		}
+		throw new IllegalArgumentException("指定されたIDのPriorityが存在しません");
+	}
 }

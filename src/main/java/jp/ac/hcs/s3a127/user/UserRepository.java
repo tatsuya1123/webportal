@@ -84,8 +84,10 @@ public class UserRepository {
 			data.setUser_id((String) map.get("user_id"));
 			data.setUser_name((String) map.get("user_name"));
 			data.setDarkmode((boolean) map.get("darkmode"));
-			data.setRole((String) map.get("role"));
-
+			String role_name = (String) map.get("role");
+			System.out.println(role_name);
+			data.setRole(Role.nameOf(role_name));
+			data.setEnabled((boolean) map.get("enabled"));
 			entity.getUserlist().add(data);
 		}
 		return entity;

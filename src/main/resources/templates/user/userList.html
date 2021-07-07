@@ -22,7 +22,8 @@
 	href="../static/img/favicon.ico">
 <link rel="shortcut icon" th:href="@{/img/favicon.ico}">
 <link rel="apple-touch-icon" th:href="@{/img/favicon.ico}">
-<link rel="apple-touch-icon" th:href="@{/img/favicon.ico}" sizes="192x192">
+<link rel="apple-touch-icon" th:href="@{/img/favicon.ico}"
+	sizes="192x192">
 <link rel="apple-touch-icon" th:href="@{/img/favicon.ico}" sizes="58x58">
 
 <!-- スタイル設定 -->
@@ -34,7 +35,7 @@
 	href="../static/css/ress.css">
 <link rel="stylesheet" th:href="@{/css/home.css}"
 	href="../static/css/home.css">
-	
+
 
 </head>
 
@@ -82,21 +83,25 @@
 				</tr>
 				<tr th:each="user : ${userEntity.userlist}">
 					<td th:text="${user.user_id}" class="table-light" scope="col"></td>
-					<td th:text="${user.enabled}" class="table-light" scope="col"></td>
+					<td class="table-light" scope="col"><span
+						th:if="${user.enabled}">有効</span> <span
+						th:if="${user.enabled == false}">無効</span></td>
 					<td th:text="${user.user_name}" class="table-light" scope="col"></td>
-					<td th:text="${user.darkmode}" class="table-light" scope="col"></td>
-					<td th:text="${user.role}" class="table-light" scope="col"></td>
+					<td class="table-light" scope="col"><span
+						th:if="${user.darkmode}">ダークモード</span> <span
+						th:if="${user.darkmode == false}">-</span></td>
+					<td th:text="${user.role.getValue()}" class="table-light" scope="col"></td>
 				</tr>
 			</table>
 			<script type="text/javascript">
-			var sample = document.getElementById("errorcheck");
-			var text = document.getElementById("error");
-			text.innerHTML = "";
-			if (sample == null || sample == '') {
-  				text.innerHTML = "条件に該当する住所は見つかりませんでした";
-			}
+				var sample = document.getElementById("errorcheck");
+				var text = document.getElementById("error");
+				text.innerHTML = "";
+				if (sample == null || sample == '') {
+					text.innerHTML = "条件に該当する住所は見つかりませんでした";
+				}
 			</script>
-			
+
 		</div>
 	</div>
 
