@@ -90,18 +90,11 @@
 					<td class="table-light" scope="col"><span
 						th:if="${user.darkmode}">ダークモード</span> <span
 						th:if="${user.darkmode == false}">-</span></td>
-					<td th:text="${user.role.getValue()}" class="table-light" scope="col"></td>
+					<td th:text="${user.role.getValue()}" class="table-light"
+						scope="col"></td>
 				</tr>
 			</table>
-			<script type="text/javascript">
-				var sample = document.getElementById("errorcheck");
-				var text = document.getElementById("error");
-				text.innerHTML = "";
-				if (sample == null || sample == '') {
-					text.innerHTML = "条件に該当する住所は見つかりませんでした";
-				}
-			</script>
-
+			<button type="submit" class="btn btn-warning btn-lg">作成</button>
 		</div>
 	</div>
 

@@ -51,24 +51,18 @@ public class UserData {
  * 優先度のEnumクラス
  */
 enum Role {
-	ADMIN("ROLE_ADMIN","管理者"),
-	GENERAL("ROLE_GENERAL","一般");
+	ROLE_ADMIN("管理者"),
+	ROLE_GENERAL("一般");
 	
-	/**権限名*/
-	private String role_name;
 	
 	/**値*/
 	private String value;
 	
 	/**コンストラクタ*/
-	Role(String role_name,String value){
-		this.role_name = role_name;
+	Role(String value){
 		this.value = value;
 	}
 	
-	public String getRole_name() {
-		return this.role_name;
-	}
 	public String getValue() {
 		return this.value;
 	}
@@ -81,9 +75,7 @@ enum Role {
 	 */
 	public static Role nameOf(String role_name) {
 		for (Role role : values()) {
-			System.out.println(role.getRole_name());
-			if (role.getRole_name().equals(role_name)) {
-				System.out.println("あ");
+			if (role.name().equals(role_name)) {
 				return role;
 			}
 		}
