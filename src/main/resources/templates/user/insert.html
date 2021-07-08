@@ -69,34 +69,55 @@
 	<!-- コンテンツ -->
 	<div class="container">
 		<div class="content-box">
-			<h1>ユーザ一覧</h1>
-			<div id="error"></div>
-			<!-- 基本１件だが、API構造に従い繰り返し構文とする -->
-			<table class="table">
-				<tr class="thead-dark">
-					<th scope="col">ユーザID（メールアドレス）</th>
-					<th scope="col">アカウント有効性</th>
-					<th scope="col">ユーザ名</th>
-					<th scope="col">ダークモード</th>
-					<th scope="col">権限</th>
+			<h2>ユーザ登録</h2>
+			<p>（管理者用）</p>
 
-				</tr>
-				<tr th:each="user : ${userEntity.userlist}" class="table-light">
-					<td th:text="${user.user_id}"  scope="col"></td>
-					<td class="table-light" scope="col"><span
-						th:if="${user.enabled}">有効</span> <span
-						th:if="${user.enabled == false}">無効</span></td>
-					<td th:text="${user.user_name}" class="table-light" scope="col"></td>
-					<td class="table-light" scope="col"><span
-						th:if="${user.darkmode}">ダークモード</span> <span
-						th:if="${user.darkmode == false}">-</span></td>
-					<td th:text="${user.role.getValue()}" class="table-light"
-						scope="col"></td>
-				</tr>
-			</table>
-			<form th:action="@{/user/insert}">
-			<button type="submit" class="btn btn-warning btn-lg" >作成</button>
-		</form>
+			<div class="input-form">
+				<form method="post" th:action="@{/user/insert}"
+					th:object="${userForm}">
+
+					<label for="user_id">ユーザID(メールアドレス)</label>
+					<div class="form-group input-box"
+						th:classappend="${#fields.hasErrors('user_id')} ? 'has-error'">
+						<input type="text" class="form-control" name="user_id"
+							placeholder="xxxxxxx@xxx.xxx" th:field="*{user_id}"> <span
+							class="text-danger" th:if="${#fields.hasErrors('user_id')}"
+							th:errors="*{user_id}">user_id error</span>
+					</div>
+
+					<label for="password">パスワード</label>
+					<div class="form-group input-box"
+						th:classappend="${#fields.hasErrors('password')} ? 'has-error'">
+						<input type="password" class="form-control" name="password"
+							placeholder="xxxxxxxx" th:field="*{password}"> <span
+							class="text-danger" th:if="${#fields.hasErrors('password')}"
+							th:errors="*{password}">password error</span>
+					</div>
+
+					<label for="user_name">ユーザ名</label>
+					<div class="form-group input-box"
+						th:classappend="${#fields.hasErrors('user_name')} ? 'has-error'">
+						<input type="text" class="form-control" name="user_name"
+							placeholder="情報 太郎" th:field="*{user_name}"> <span
+							class="text-danger" th:if="${#fields.hasErrors('user_name')}"
+							th:errors="*{user_name}">user_name error</span>
+					</div>
+
+					<label for="role">権限設定</label>
+					<div class="form-group input-box">
+						<div>
+							<input type="radio" name="role" value="ROLE_ADMIN" id="role1">管理
+						</div>
+						<div>
+							<input type="radio" name="role" value="ROLE_GENERAL" id="role2">一般
+						</div>
+						<span class="text-danger" th:if="${#fields.hasErrors('role')}"
+							th:errors="*{role}">role error</span>
+					</div>
+
+					<button type="submit" class="btn btn-warning">登録</button>
+				</form>
+			</div>
 		</div>
 	</div>
 

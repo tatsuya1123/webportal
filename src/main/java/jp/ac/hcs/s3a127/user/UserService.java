@@ -17,4 +17,14 @@ public class UserService {
 		UserEntity userEntity = userRepository.selectAll();	
 		return userEntity;
 	}
+	/**
+	 * ユーザーを一人追加する。
+	 * @param data
+	 * @return
+	 */
+	public int insertOne(UserData data) {
+		int rownumber = userRepository.insertOne(data);
+		return rownumber;
+		
+	}
 }
