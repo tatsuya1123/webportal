@@ -56,7 +56,7 @@ public class UserRepository {
 		UserEntity userEntity = mappingSelectResult(resultList);
 		return userEntity;
 	}
-
+	
 	/**
 	 * UserテーブルからユーザIDをキーにデータを1件を取得.
 	 * @param user_id 検索するユーザID
@@ -119,7 +119,7 @@ public class UserRepository {
 		int rowNumber = jdbc.update(SQL_UPDATE_ONE_WITH_PASSWORD,
 				passwordEncoder.encode(data.getPassword()),
 				data.getUser_name(),
-				data.getRole(),
+				data.getRole().name(),
 				data.getUser_id());
 		return rowNumber;
 	}
@@ -133,7 +133,7 @@ public class UserRepository {
 	public int updateOne(UserData userData) throws DataAccessException {
 		int rowNumber = jdbc.update(SQL_UPDATE_ONE,
 				userData.getUser_name(),
-				userData.getRole(),
+				userData.getRole().name(),
 				userData.getUser_id());
 		return rowNumber;
 	}

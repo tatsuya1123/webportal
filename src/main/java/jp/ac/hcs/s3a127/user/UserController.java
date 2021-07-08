@@ -1,6 +1,7 @@
 package jp.ac.hcs.s3a127.user;
 
 import java.security.Principal;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,8 +10,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Controller
 public class UserController {
 	@Autowired
@@ -66,5 +71,49 @@ public class UserController {
 		
 		int rownumber = userService.insertOne(userData);
 		return getUserList(model);
+	}
+	@GetMapping("/user/detail/{id}")
+	public String getUserDetail(@PathVariable("id") String user_id, Principal principal, Model model) {
+		if("".equals(user_id)) {
+			return "index";
+		}
+		String emailRegex = "\"^([a-zA-Z0-9])+([a-zA-Z0-9.-])*@([a-zA-Z0-9-])+([a-zA-Z0-9._-]+)+$\"";
+		if(!Pattern.matches(emailRegex, user_id)) {
+			String errorMessage = "不正な入力です";
+			model.addAttribute("errorMessage",errorMessage);
+			return getUserList(model);
+		}
+		
+	    UserForm userForm = new UserForm();
+	    userForm.setUser_id(user_id);
+		
+		UserData data = userService.selectOne(user_id);
+		if(!(data instanceof Object)) {
+			String errorMessage = "不正な入力です。";
+			model.addAttribute("errorMessage",errorMessage);
+			return getUserList(model);
+		}
+		log.info("[" + data.getUser_id() + "] 詳細画面へ");
+		model.addAttribute("userData",data);
+		return "user/detail";
+	}
+	@PostMapping("/user/update")
+	public String updateUserDetail(@ModelAttribute @Validated UserData data,
+			BindingResult bindingResult,
+			Principal principal,
+			Model model) {
+				int rownumber = userService.updateOne(data);
+				return getUserList(model);
+	}
+	@PostMapping("/user/delete")
+	public String deleteUserDetail(@RequestParam("user_id") String user_id,
+			Principal principal,
+			Model model) {
+				int rownumber = userService.deleteOne(user_id);
+				if (rownumber == 0) {
+					String errorMessage = "不正な入力です。";
+					model.addAttribute("errorMessage",errorMessage);
+				}
+				return getUserList(model);
 	}
 }
