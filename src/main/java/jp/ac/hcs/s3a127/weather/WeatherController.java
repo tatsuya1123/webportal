@@ -16,11 +16,11 @@ public class WeatherController {
 	@Autowired
 	private WeatherService weatherService;
 	/**
-	 * 郵便番号から住所を検索し、結果画面を表示する
+	 * 待ち番号から天気を検索し、結果画面を表示する
 	 * @param cityCode 街番号
 	 * @param principal ログイン情報
 	 * @param model
-	 * @return 結果画面 - 郵便番号
+	 * @return 結果画面 - 天気
 	 */
 	@GetMapping("/weather")
 	public String getWeather(@RequestParam("citycode") String cityCode, 

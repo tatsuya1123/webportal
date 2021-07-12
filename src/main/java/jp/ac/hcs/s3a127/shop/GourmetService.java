@@ -14,12 +14,12 @@ public class GourmetService {
 	@Autowired
 	RestTemplate restTemplate;
 
-	/** 郵便番号検索API リクエストURL */
+	/** グルメAPI リクエストURL */
 	private static final String URL =
 			"http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key={API_KEY}&name={shopname}&large_service_area={large_service_area}&format=json&count=50";
 
 	/**
-	 * 指定した郵便番号に紐づく郵便番号情報を取得する。
+	 * 検索ワードに紐づくグルメ情報を取得する。
 	 * 
 	 * @param  gourme 検索ワード
 	 * @return ShopEntity

@@ -20,12 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 	@Autowired
 	private UserService userService;
+	private final String emailRegex = "^(.+)@(.+)$";
 
 	/**
-	 * ログイン画面を表示する
+	 * ユーザーリストを表示する
 	 * 
 	 * @param model
-	 * @return ログイン画面
+	 * @return ユーザーリスト画面
 	 */
 	@GetMapping("/user/list")
 	public String getUserList(Model model) {
@@ -77,23 +78,23 @@ public class UserController {
 		if("".equals(user_id)) {
 			return "index";
 		}
-		String emailRegex = "\"^([a-zA-Z0-9])+([a-zA-Z0-9.-])*@([a-zA-Z0-9-])+([a-zA-Z0-9._-]+)+$\"";
+		
 		if(!Pattern.matches(emailRegex, user_id)) {
 			String errorMessage = "不正な入力です";
 			model.addAttribute("errorMessage",errorMessage);
+			System.out.println("bbbbb");
 			return getUserList(model);
 		}
 		
-	    UserForm userForm = new UserForm();
-	    userForm.setUser_id(user_id);
-		
 		UserData data = userService.selectOne(user_id);
 		if(!(data instanceof Object)) {
+			System.out.println("aaaaaa");
 			String errorMessage = "不正な入力です。";
 			model.addAttribute("errorMessage",errorMessage);
 			return getUserList(model);
 		}
 		log.info("[" + data.getUser_id() + "] 詳細画面へ");
+		model.addAttribute("errorMessage"," ");
 		model.addAttribute("userData",data);
 		return "user/detail";
 	}

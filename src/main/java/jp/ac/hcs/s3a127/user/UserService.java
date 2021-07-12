@@ -9,7 +9,7 @@ public class UserService {
 	@Autowired
 	UserRepository userRepository;
 	/**
-	 * 指定した郵便番号に紐づく郵便番号情報を取得する。
+	 * ユーザーリストを取得する。
 	 * 
 	 * @return userEntity
 	 */
@@ -18,7 +18,7 @@ public class UserService {
 		return userEntity;
 	}
 	/**
-	 * 指定した郵便番号に紐づく郵便番号情報を取得する。
+	 * ユーザー情報を一件取得する。
 	 * 
 	 * @return userEntity
 	 */
@@ -35,7 +35,11 @@ public class UserService {
 		int rownumber = userRepository.insertOne(data);
 		return rownumber;
 	}
-	
+	/**
+	 * ユーザー情報を一人更新する。
+	 * @param data
+	 * @return
+	 */
 	public int updateOne(UserData data) {
 		int rownumber = 0;
 		if ((data.getRole().name().equals("ROLE_ADMIN"))) {
@@ -56,6 +60,11 @@ public class UserService {
 		}
 		return rownumber;
 	}
+	/**
+	 * ユーザー情報を一件削除する。
+	 * @param user_id
+	 * @return
+	 */
 	public int deleteOne(String user_id) {
 		int rownumber = userRepository.deleteOne(user_id);
 		return rownumber;

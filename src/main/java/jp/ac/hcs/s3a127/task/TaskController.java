@@ -23,11 +23,10 @@ public class TaskController {
 		@Autowired
 		private TaskService taskService;
 		/**
-		 * 郵便番号から住所を検索し、結果画面を表示する
-		 * @param zipcode 検索する郵便番号(ハイフン無し)
+		 * DBでタスクを管理する
 		 * @param principal ログイン情報
 		 * @param model
-		 * @return 結果画面 - 郵便番号
+		 * @return 結果画面 - タスク情報
 		 */
 		@PostMapping("/task")
 		public String getTask(Principal principal, Model model) {

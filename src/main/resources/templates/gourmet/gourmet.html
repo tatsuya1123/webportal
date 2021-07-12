@@ -71,7 +71,7 @@
 	<div class="container">
 		<div class="content-box">
 			<h1>北海道グルメ</h1>
-			<h2>「<span th;text="${gourmet}"></span>」の検索結果</h2>
+			<h2>「<span th:text="${gourmet}"></span>」の検索結果</h2>
 			<h3>表示５０件の中で<span th:text="${thisId} - 9"></span>～<span th:text="${thisId}"></span>件表示しています</h3>
 			<!-- 基本１件だが、API構造に従い繰り返し構文とする -->
 	<table id="page" class="table" ><tr class="thead-dark">
@@ -88,11 +88,11 @@
 	</tr>
 	</table>
 	<ul class="example3">
-		<li><a th:href="@{'/gourmet/1'}">1</a></li>
-		<li><a th:href="@{'/gourmet/2'}">2</a></li>
-		<li><a th:href="@{'/gourmet/3'}">3</a></li>
-		<li><a th:href="@{'/gourmet/4'}">4</a></li>
-		<li><a th:href="@{'/gourmet/5'}">5</a></li>
+		<li><a th:href="@{'/gourmet/1'}" >1</a></li>
+		<li><a th:href="@{'/gourmet/2'}" >2</a></li>
+		<li><a th:href="@{'/gourmet/3'}" >3</a></li>
+		<li><a th:href="@{'/gourmet/4'}" >4</a></li>
+		<li><a th:href="@{'/gourmet/5'}" >5</a></li>
 	</ul>
 		</div>
 	</div>
