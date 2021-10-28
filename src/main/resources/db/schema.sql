@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS m_user (
 
 /* タスクテーブル */
 CREATE TABLE IF NOT EXISTS task (
-  id INT PRIMARY KEY,
+  id INTEGER PRIMARY KEY,
   user_id VARCHAR(50),
   priority VARCHAR(10),
   title VARCHAR(50),
